@@ -3,3 +3,6 @@
 
 brew install cask
 brew install --cask android-platform-tools
+
+adb devices
+adb install

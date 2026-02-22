@@ -41,7 +41,5 @@
 ---
 
 ## 관련 문서
-- [[05-Jetpack-Compose/성능-최적화/Recomposition-최적화|Recomposition 최적화]]
-- [[03-Android-Framework/메모리/Memory-Leak|Memory Leak]]
 
 [← 메인으로](README.md)

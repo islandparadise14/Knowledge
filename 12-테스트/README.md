@@ -51,7 +51,5 @@ app/
 ---
 
 ## 관련 문서
-- [[06-Architecture/패턴/Repository-패턴|Repository 패턴]]
-- [[06-Architecture/ViewModel/ViewModel-기초|ViewModel 기초]]
 
 [← 메인으로](README.md)

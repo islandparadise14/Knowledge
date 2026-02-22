@@ -4,19 +4,10 @@
 
 ## 📚 목차
 
-### [[06-Architecture/패턴/MVVM|아키텍처 패턴]]
-- [[06-Architecture/패턴/MVVM|MVVM]]
-- [[06-Architecture/패턴/MVI|MVI]]
-- [[06-Architecture/패턴/Repository-패턴|Repository 패턴]]
-
-### [[06-Architecture/ViewModel/ViewModel-기초|ViewModel]]
-- [[06-Architecture/ViewModel/ViewModel-기초|ViewModel 기초]]
-
-### [[06-Architecture/상태-관리/UiState|상태 관리]]
-- [[06-Architecture/상태-관리/UiState|UiState 패턴]]
-
-### [[06-Architecture/의존성-주입/Hilt|의존성 주입]]
-- [[06-Architecture/의존성-주입/Hilt|Hilt]]
+### 아키텍처 패턴
+### ViewModel
+### 상태 관리
+### 의존성 주입
 
 ---
 

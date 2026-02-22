@@ -151,7 +151,6 @@ val adapter = MyAdapter { item ->
 ## 🔗 관련 개념
 
 - [[04-View-System/RecyclerView/DiffUtil]]
-- [[05-Jetpack-Compose/리스트/LazyColumn]]
 
 ---
 

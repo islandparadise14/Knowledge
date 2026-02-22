@@ -79,7 +79,6 @@ repeat(100) {
 ## 🔗 관련 개념
 
 - [[04-View-System/View/Custom-View]]
-- [[05-Jetpack-Compose/기초/Recomposition]]
 
 ---
 

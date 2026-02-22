@@ -2,7 +2,7 @@
 tags: [cs, memory, value-type, reference-type, kotlin]
 ---
 
-# 값 타입 vs 참조 타입
+# 값 타입 vs 참조 타입 (Primitive type vs Reference type)
 
 ## 💡 핵심 개념
 

@@ -110,6 +110,5 @@ ViewModel.onCleared()
 
 ## 관련 문서
 - [[06-Architecture/패턴/MVVM|MVVM]]
-- [[03-Android-Framework/생명주기/Configuration-Changes|Configuration Changes]]
 
 [← Architecture](06-Architecture/README.md)

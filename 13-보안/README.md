@@ -40,7 +40,5 @@
 ---
 
 ## 관련 문서
-- [[08-네트워크/OkHttp/Certificate-Pinning|Certificate Pinning]]
-- [[07-Jetpack-Libraries/기타/Security|Jetpack Security]]
 
 [← 메인으로](README.md)

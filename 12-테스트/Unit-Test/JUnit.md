@@ -122,7 +122,5 @@ class MainDispatcherRule(
 ---
 
 ## 관련 문서
-- [[06-Architecture/ViewModel/ViewModel-기초|ViewModel 기초]]
-- [[02-Coroutines/예외-처리/코루틴-예외-처리|코루틴 예외 처리]]
 
 [← 테스트](12-테스트/README.md)

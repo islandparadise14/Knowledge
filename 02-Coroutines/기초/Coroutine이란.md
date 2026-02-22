@@ -104,7 +104,41 @@ val result = withContext(Dispatchers.IO) {
 
 ### 동작 원리
 
-**Continuation**
+**Continuation — 실제 인터페이스**
+
+`Continuation`은 개념이 아니라 Kotlin 표준 라이브러리에 실제로 존재하는 인터페이스다.
+
+```kotlin
+// Kotlin 표준 라이브러리 실제 코드
+public interface Continuation<in T> {
+    public val context: CoroutineContext
+    public fun resumeWith(result: Result<T>)
+}
+```
+
+컴파일러가 `suspend` 함수마다 이걸 구현한 클래스를 자동 생성한다.
+
+```kotlin
+// 네가 작성한 코드
+suspend fun fetchUser(id: String): User {
+    delay(1000)
+    return api.getUser(id)
+}
+
+// 컴파일러가 실제로 만드는 것 (대략)
+class FetchUserContinuation(
+    val id: String,
+    var label: Int = 0,
+    var result: Any? = null
+) : Continuation<User> {
+    override fun resumeWith(result: Result<User>) {
+        this.result = result
+        // label 보고 다음 단계 실행
+    }
+}
+```
+
+**State Machine**
 
 ```kotlin
 // 컴파일러가 변환
@@ -130,8 +164,6 @@ fun example(continuation: Continuation<Unit>): Any {
 }
 ```
 
-**State Machine**
-
 ```kotlin
 suspend fun multi() {
     println("1")
@@ -146,6 +178,66 @@ suspend fun multi() {
 // State 1: println("2") → delay
 // State 2: println("3") → done
 ```
+
+**스레드 블록이 없는 이유 — 스택 vs 힙**
+
+스레드는 모든 상태를 자신의 스택에 들고 있어서 기다리는 동안 스레드 자체가 묶인다.
+코루틴은 상태를 힙의 Continuation 객체로 꺼내놓기 때문에 스레드를 즉시 반환할 수 있다.
+
+```
+스레드
+  [스택]
+    fetchUser()
+      userId = "123"
+      result = ???    ← 상태가 스택에 있음
+      sleep(1000) 대기중
+                      ← 스택을 다른 스레드에 못 넘김
+                         스레드 자체가 들고 있어야 함
+
+
+코루틴
+  [스택]              [힙]
+    fetchUser()
+    delay(1000)  →   Continuation {
+    리턴!              label = 1
+                       userId = "123"  ← 상태를 힙으로 이사
+                     }
+  [스택 비워짐]        ↓
+                     메시지 큐에 등록
+                     "1초 후 이 Continuation 실행해줘"
+
+                     ↓ 1초 후
+
+  [스택]              [힙]
+    fetchUser()  ←   Continuation     ← 힙에서 꺼내서
+    label=1          label = 1          스택에 다시 올림
+    재개!
+```
+
+**delay()와 Handler 메시지 큐**
+
+```
+스레드:   [────────── 스레드가 시간을 점유 ──────────]
+           작업        멈춤(1초)                작업
+
+코루틴:   [코루틴A]   [코루틴B][msg][코루틴A 재개]
+           작업        ← 스레드는 계속 다른 일 함 →
+                  ↑
+           여기서 스레드 반환 + Continuation을 메시지 큐에 등록
+```
+
+`delay(1000)` 내부에서 일어나는 일:
+
+```kotlin
+// delay 내부 (단순화)
+Handler.postDelayed({
+    continuation.resumeWith(Result.success(Unit))  // 그냥 객체 메서드 호출
+}, 1000)
+return COROUTINE_SUSPENDED  // 스레드 즉시 반환
+```
+
+`continuation.resumeWith()`는 **그냥 객체 메서드 호출 하나**다.
+스레드를 깨우거나 OS를 건드리는 게 없다. 힙에 있는 Continuation을 꺼내서 다음 label부터 실행할 뿐이다.
 
 ### 주의사항
 

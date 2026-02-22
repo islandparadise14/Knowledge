@@ -35,7 +35,49 @@ fun handleResult(result: Result<String>) {
 }
 ```
 
-### Sealed interface (Kotlin 1.5+)
+### Sealed Class vs Sealed Interface
+
+**sealed class** — 단일 상속, 공통 상태/메서드 공유 가능
+
+```kotlin
+sealed class Result {
+    abstract val timestamp: Long  // 공통 프로퍼티 선언 가능
+    data class Success(val data: String, override val timestamp: Long) : Result()
+    data class Error(val message: String, override val timestamp: Long) : Result()
+}
+```
+
+**sealed interface** — 다중 구현 가능, 한 클래스가 여러 sealed 계층에 동시에 속할 수 있음
+
+```kotlin
+sealed interface Action
+sealed interface Undoable
+
+class MoveAction(val x: Int) : Action, Undoable  // 둘 다 구현
+class DeleteAction : Action, Undoable
+class ViewAction : Action  // Undoable 아님
+
+// when으로 각각 독립적으로 처리 가능
+fun process(action: Action) = when (action) {
+    is MoveAction   -> println("move")
+    is DeleteAction -> println("delete")
+    is ViewAction   -> println("view")
+}
+
+fun undo(action: Undoable) = when (action) {
+    is MoveAction   -> println("undo move")
+    is DeleteAction -> println("undo delete")
+    // ViewAction은 Undoable이 아니라 여기에 안 나옴
+}
+```
+
+| | sealed class | sealed interface |
+|--|--|--|
+| 공통 상태/메서드 | O | X |
+| 다중 타입 계층 | X | O |
+| 기본 선택 | O | 다중 구현이 필요할 때 |
+
+### Sealed Interface (Kotlin 1.5+)
 
 ```kotlin
 sealed interface UiState {
@@ -332,7 +374,6 @@ repository.getUser(id)
 
 - [[01-Kotlin/클래스-종류/Data-Class]]
 - [[01-Kotlin/클래스-종류/Enum-Class]]
-- [[06-Architecture/상태-관리/UiState]]
 
 ## 📚 더 보기
 

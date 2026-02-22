@@ -106,6 +106,5 @@ sealed class UiEvent {
 
 ## 관련 문서
 - [[06-Architecture/패턴/MVI|MVI]]
-- [[02-Coroutines/Flow/StateFlow|StateFlow]]
 
 [← Architecture](06-Architecture/README.md)

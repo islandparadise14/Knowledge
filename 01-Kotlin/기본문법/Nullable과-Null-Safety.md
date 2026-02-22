@@ -244,7 +244,6 @@ fun getStreetName(company: Company?): String {
 
 - [[01-Kotlin/기본문법/변수와-타입]]
 - [[01-Kotlin/함수형-프로그래밍/Scope-Functions]]
-- [[06-Architecture/상태-관리/Error-처리]]
 
 ## 📚 더 보기
 

@@ -91,7 +91,6 @@ fun SearchScreen(viewModel: SearchViewModel) {
 ## 🔗 관련 개념
 
 - [[05-Jetpack-Compose/상태-관리/State]]
-- [[06-Architecture/상태-관리/UiState]]
 
 ---
 

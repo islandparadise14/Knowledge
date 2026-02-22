@@ -86,7 +86,6 @@ fun UserScreen(viewModel: UserViewModel) {
 ## 🔗 관련 개념
 
 - [[05-Jetpack-Compose/Side-Effects/DisposableEffect]]
-- [[02-Coroutines/기초/Coroutine이란]]
 
 ---
 
